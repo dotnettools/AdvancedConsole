@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTools.AdvancedConsole", "src\DotNetTools.AdvancedConsole\DotNetTools.AdvancedConsole.csproj", "{4354DD0F-84A8-404D-9C1B-19F1901FC2CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTools.AdvancedConsole.Demo", "src\DotNetTools.AdvancedConsole.Demo\DotNetTools.AdvancedConsole.Demo.csproj", "{326EFD0F-E5CF-46FC-8CCA-2C3D56DD9D54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4354DD0F-84A8-404D-9C1B-19F1901FC2CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4354DD0F-84A8-404D-9C1B-19F1901FC2CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4354DD0F-84A8-404D-9C1B-19F1901FC2CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4354DD0F-84A8-404D-9C1B-19F1901FC2CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{326EFD0F-E5CF-46FC-8CCA-2C3D56DD9D54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{326EFD0F-E5CF-46FC-8CCA-2C3D56DD9D54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{326EFD0F-E5CF-46FC-8CCA-2C3D56DD9D54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{326EFD0F-E5CF-46FC-8CCA-2C3D56DD9D54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3B7EFE88-F774-4ADA-B120-54E077CFF09B}
+	EndGlobalSection
+EndGlobal
