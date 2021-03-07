@@ -20,11 +20,11 @@ namespace DotNetTools.AdvancedConsole
         /// Gets the <see cref="ConsoleScreenPixel"/> at the specified row and column.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown in case of invalid row or column.</exception>
-        ConsoleScreenPixel GetPixel(int col, int row);
+        ConsoleScreenPixel GetPixel(int row, int col);
 
         /// <summary>
         /// Renders the screen
         /// </summary>
-        void Render();
+        void Render(ConsoleRenderOptions options);
     }
 }

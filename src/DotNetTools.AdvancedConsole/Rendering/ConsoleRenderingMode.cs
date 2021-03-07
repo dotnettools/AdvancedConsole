@@ -12,7 +12,7 @@ namespace DotNetTools.AdvancedConsole
         Update,
 
         /// <summary>
-        /// 
+        /// The whole screen should be rendered.
         /// </summary>
         Full
     }

@@ -7,6 +7,7 @@ namespace DotNetTools.AdvancedConsole
     public class ConsoleProgram
     {
         private IConsoleScreen _screen;
+        private readonly ConsoleScreenRenderer _renderer;
 
         public ConsoleProgram()
         {

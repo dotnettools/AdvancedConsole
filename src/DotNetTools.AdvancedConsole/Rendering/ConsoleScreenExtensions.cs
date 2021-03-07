@@ -7,6 +7,19 @@ namespace DotNetTools.AdvancedConsole
     public static class ConsoleScreenExtensions
     {
         /// <summary>
+        /// Gets the <see cref="ConsoleScreenPixel"/> at the specified row and column.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown in case of invalid row or column.</exception>
+        public static ConsoleScreenPixel GetPixel(this IConsoleScreen screen, ConsolePoint point)
+            => screen.GetPixel(point.Row, point.Column);
+
+        /// <summary>
+        /// Renders the screen with default options.
+        /// </summary>
+        public static void Render(this IConsoleScreen screen)
+            => screen.Render(ConsoleRenderOptions.Default);
+
+        /// <summary>
         /// Clears a rectangular part of the screen.
         /// </summary>
         public static void Clear(this IConsoleScreen screen, int colStart, int colEnd, int rowStart, int rowEnd)
@@ -19,7 +32,7 @@ namespace DotNetTools.AdvancedConsole
             for (var row = rowStart; row <= rowEnd; row++)
                 for (var col = colStart; col <= colEnd; col++)
                 {
-                    var pixel = screen.GetPixel(col, row);
+                    var pixel = screen.GetPixel(row, col);
                     pixel.Clear();
                 }
         }

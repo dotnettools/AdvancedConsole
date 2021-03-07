@@ -6,7 +6,12 @@ namespace DotNetTools.AdvancedConsole.Demo
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var screen = ConsoleScreen.CreateForWindow();
+            var p = screen.GetPixel(2, 4);
+            p.Char = 'X';
+            p.BackgroundColor = ConsoleColor.Blue;
+            p.ForegroundColor = ConsoleColor.Yellow;
+            screen.Render();
         }
     }
 }
