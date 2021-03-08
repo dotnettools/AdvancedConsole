@@ -9,6 +9,9 @@ namespace DotNetTools.AdvancedConsole
     /// </summary>
     public interface IConsoleController
     {
-        void Render();
+        /// <summary>
+        /// Runs the controller logic.
+        /// </summary>
+        void Run(ConsoleControllerContext context);
     }
 }

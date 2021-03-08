@@ -6,13 +6,11 @@ namespace DotNetTools.AdvancedConsole
 {
     public class ConsoleScreenRenderer
     {
-        private readonly IConsoleScreen _screen;
         private readonly Dictionary<ConsolePoint, ConsoleScreenPixel> _lastPixels = new Dictionary<ConsolePoint, ConsoleScreenPixel>();
         private int _lastRows, _lastCols;
 
-        public ConsoleScreenRenderer(IConsoleScreen screen)
+        public ConsoleScreenRenderer()
         {
-            _screen = screen;
         }
 
         public ConsoleColor DefaultBackgroundColor { get; set; } = Console.BackgroundColor;
@@ -26,34 +24,45 @@ namespace DotNetTools.AdvancedConsole
 
         public void RenderPixel(ConsoleScreenPixel pixel)
         {
-            if (pixel.Char == '\0')
-                return;
-
             Console.BackgroundColor = pixel.BackgroundColor ?? DefaultBackgroundColor;
             Console.ForegroundColor = pixel.ForegroundColor ?? DefaultForegroundColor;
-            Console.Write(pixel.Char);
+
+            char ch = pixel.Char;
+            if (pixel.Char == '\0')
+                ch = ' ';
+            Console.Write(ch);
         }
 
-        public void Render(ConsoleRenderOptions options)
+        public void Render(IConsoleScreen screen, ConsoleRenderOptions options)
         {
-            var invalidate = ShouldInvalidate(options);
+            Console.CursorVisible = false;
+            var cursorLeft = Console.CursorLeft;
+            var cursorTop = Console.CursorTop;
+            var originalBackground = Console.BackgroundColor;
+            var originalForeground = Console.ForegroundColor;
+
+            var invalidate = ShouldInvalidate(screen, options);
 
             if (invalidate)
-                FullRender(options);
+                FullRender(screen, options);
             else
-                UpdateRender(options);
+                UpdateRender(screen, options);
 
-            _lastCols = _screen.Columns;
-            _lastRows = _screen.Rows;
+            _lastCols = screen.Columns;
+            _lastRows = screen.Rows;
+            Console.BackgroundColor = originalBackground;
+            Console.ForegroundColor = originalForeground;
+            Console.SetCursorPosition(cursorLeft, cursorTop);
+            Console.CursorVisible = screen.IsCursorVisible;
         }
 
-        private void UpdateRender(ConsoleRenderOptions options)
+        private void UpdateRender(IConsoleScreen screen, ConsoleRenderOptions options)
         {
-            for (var row = 0; row < _screen.Rows; row++)
-                for (var col = 0; col < _screen.Columns; col++)
+            for (var row = 0; row < screen.Rows; row++)
+                for (var col = 0; col < screen.Columns; col++)
                 {
                     var point = new ConsolePoint(row, col);
-                    var pixel = _screen.GetPixel(point);
+                    var pixel = screen.GetPixel(point);
                     _lastPixels.TryGetValue(point, out var oldPixel);
 
                     if (oldPixel != null && oldPixel.Equals(pixel))
@@ -69,23 +78,23 @@ namespace DotNetTools.AdvancedConsole
                 }
         }
 
-        private void FullRender(ConsoleRenderOptions options)
+        private void FullRender(IConsoleScreen screen, ConsoleRenderOptions options)
         {
             _lastPixels.Clear();
-            for (var row = 0; row < _screen.Rows; row++)
-                for (var col = 0; col < _screen.Columns; col++)
+            for (var row = 0; row < screen.Rows; row++)
+                for (var col = 0; col < screen.Columns; col++)
                 {
                     var point = new ConsolePoint(row, col);
-                    var pixel = _screen.GetPixel(row, col);
+                    var pixel = screen.GetPixel(row, col);
                     _lastPixels.Add(point, new ConsoleScreenPixel(pixel));
 
                     RenderPixel(row, col, pixel);
                 }
         }
 
-        private bool ShouldInvalidate(ConsoleRenderOptions options)
+        private bool ShouldInvalidate(IConsoleScreen screen, ConsoleRenderOptions options)
         {
-            if (_lastRows != _screen.Rows || _lastCols != _screen.Columns)
+            if (_lastRows != screen.Rows || _lastCols != screen.Columns)
                 return true;
             return options.RenderingMode == ConsoleRenderingMode.Full;
         }

@@ -6,6 +6,8 @@ namespace DotNetTools.AdvancedConsole
 {
     public class ConsoleScreen : IConsoleScreen
     {
+        public static readonly ConsoleScreen Blank = CreateForWindow();
+
         private readonly ConsoleScreenRenderer _defaultRenderer;
         private int _columns, _rows;
         private ConsoleScreenPixel[][] _pixels;
@@ -16,7 +18,7 @@ namespace DotNetTools.AdvancedConsole
 
         public ConsoleScreen(int columns, int rows)
         {
-            _defaultRenderer = new ConsoleScreenRenderer(this);
+            _defaultRenderer = new ConsoleScreenRenderer();
             _columns = columns;
             _rows = rows;
             UpdateSize();
@@ -50,16 +52,24 @@ namespace DotNetTools.AdvancedConsole
             }
         }
 
+        public bool IsCursorVisible { get; set; } = true;
+
+        public int CurrentColumn { get; set; }
+
+        public int CurrentRow { get; set; }
+
         public ConsoleScreenPixel GetPixel(int row, int col)
         {
             var rowPixel = _pixels[row];
             if (rowPixel[col] == null)
                 rowPixel[col] = new ConsoleScreenPixel();
+            CurrentRow = row;
+            CurrentColumn = col;
             return rowPixel[col];
         }
 
         public void Render(ConsoleRenderOptions options)
-            => _defaultRenderer.Render(options);
+            => _defaultRenderer.Render(this, options);
 
         private void UpdateSize()
         {

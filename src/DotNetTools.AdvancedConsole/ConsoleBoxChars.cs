@@ -4,7 +4,8 @@ using System.Text;
 
 namespace DotNetTools.AdvancedConsole
 {
-    public interface IConsoleContext
+    public static class ConsoleBoxChars
     {
+        // TODO Add box chars
     }
 }

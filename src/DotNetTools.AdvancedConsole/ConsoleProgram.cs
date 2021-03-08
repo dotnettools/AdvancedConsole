@@ -6,45 +6,70 @@ namespace DotNetTools.AdvancedConsole
 {
     public class ConsoleProgram
     {
-        private IConsoleScreen _screen;
         private readonly ConsoleScreenRenderer _renderer;
+        private IConsoleController _controller;
 
         public ConsoleProgram()
         {
+            _renderer = new ConsoleScreenRenderer();
         }
 
-        public ConsoleProgram(IConsoleScreen startupScreen)
+        public ConsoleProgram(ConsoleScreenRenderer renderer)
         {
-            _screen = startupScreen;
+            _renderer = renderer;
         }
 
         public ConsoleColor DefaultBackgroundColor { get; set; } = Console.BackgroundColor;
 
         public ConsoleColor DefaultForegroundColor { get; set; } = Console.ForegroundColor;
 
-        public IConsoleScreen ActiveScreen
+        public IConsoleController Controller
         {
-            get => _screen;
+            get => _controller;
             set
             {
-                if (_screen == value)
+                if (_controller == value)
                     return;
-                _screen = value;
-                Invalidate();
+                _controller = value;
             }
         }
+
+        public bool Terminated { get; set; }
 
         public void Run()
         {
-            IConsoleScreen screen = null;
+            if (Controller == null)
+                throw new InvalidOperationException("Cannot run the program as no controller is specified.");
 
             while (true)
             {
+                if (Controller == null || Terminated)
+                    return;
+
+                var context = new ConsoleControllerContext(Render);
+                Controller.Run(context);
+
+                if (context.Terminated)
+                    break;
+
+                if (context.NextController != null)
+                    Controller = context.NextController;
             }
+
+            Console.Clear();
         }
 
-        public void Invalidate()
+        private void Render(IConsoleScreen screen)
         {
+            _renderer.Render(screen, new ConsoleRenderOptions
+            {
+                RenderingMode = ConsoleRenderingMode.Update,
+            });
+        }
+
+        public void Terminate()
+        {
+            Terminated = true;
         }
     }
 }
