@@ -8,11 +8,29 @@
         <PackageProjectUrl>https://github.com/dotnettools/AdvancedConsole</PackageProjectUrl>
         <RepositoryUrl>https://github.com/dotnettools/AdvancedConsole</RepositoryUrl>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageLicenseExpression></PackageLicenseExpression>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <Version>0.0.1</Version>
+        <PackageTags>console,cmd,commandline,menu,.net.dotnet,dotnetcore</PackageTags>
+        <Description>Advanced console features for .NET</Description>
+        <Company>DotNetTools</Company>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <DocumentationFile></DocumentationFile>
         <NoWarn>1701;1702;1591</NoWarn>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Include="..\..\assets\icon.png">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
+      <None Include="..\..\LICENSE">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
+    </ItemGroup>
 
 </Project>
