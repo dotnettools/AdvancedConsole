@@ -11,7 +11,7 @@
         <PackageLicenseExpression></PackageLicenseExpression>
         <PackageIcon>icon.png</PackageIcon>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <Version>0.0.1</Version>
+        <Version>0.0.2</Version>
         <PackageTags>console,cmd,commandline,menu,.net.dotnet,dotnetcore</PackageTags>
         <Description>Advanced console features for .NET</Description>
         <Company>DotNetTools</Company>

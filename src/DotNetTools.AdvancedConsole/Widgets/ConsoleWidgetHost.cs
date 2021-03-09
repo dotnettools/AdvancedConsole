@@ -7,12 +7,22 @@ namespace DotNetTools.AdvancedConsole.Widgets
     public class ConsoleWidgetHost
     {
         private readonly List<IConsoleWidget> _widgets = new List<IConsoleWidget>();
-        private readonly ConsoleScreenRenderer _renderer = new ConsoleScreenRenderer();
+        private ConsoleScreenRenderer _renderer;
 
         public ConsoleWidgetHost(IConsoleScreen screen, Action<ConsoleWidgetHost> renderer)
         {
             Screen = screen;
             Renderer = renderer;
+        }
+
+        public ConsoleWidgetHost(IConsoleScreen screen, ConsoleScreenRenderer renderer)
+        {
+            Screen = screen;
+            Renderer = _ =>
+            {
+                _renderer = renderer;
+                RenderDefault();
+            };
         }
 
         public ConsoleWidgetHost(IConsoleScreen screen)
@@ -51,6 +61,8 @@ namespace DotNetTools.AdvancedConsole.Widgets
 
         public void Update()
         {
+            Screen.ResizeScreenOnDemand();
+
             foreach (var widget in _widgets)
                 widget.Update();
         }
@@ -62,6 +74,8 @@ namespace DotNetTools.AdvancedConsole.Widgets
 
         private void RenderDefault()
         {
+            if (_renderer == null)
+                _renderer = new ConsoleScreenRenderer();
             _renderer.Render(Screen, new ConsoleRenderOptions
             {
                 RenderingMode = ConsoleRenderingMode.Update,

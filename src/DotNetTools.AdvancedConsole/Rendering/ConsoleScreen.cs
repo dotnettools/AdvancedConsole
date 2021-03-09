@@ -8,20 +8,26 @@ namespace DotNetTools.AdvancedConsole
     {
         public static readonly ConsoleScreen Blank = CreateForWindow();
 
-        private readonly ConsoleScreenRenderer _defaultRenderer;
+        private readonly Func<(int rows, int columns)> _sizeCallback;
         private int _columns, _rows;
         private ConsoleScreenPixel[][] _pixels;
+
+        public ConsoleScreen(int columns, int rows)
+        {
+            _columns = columns;
+            _rows = rows;
+            UpdateSize();
+        }
 
         public ConsoleScreen() : this(0, 0)
         {
         }
 
-        public ConsoleScreen(int columns, int rows)
+        public ConsoleScreen(Func<(int rows, int columns)> sizeCallback)
+            : this(sizeCallback().columns, sizeCallback().rows)
         {
-            _defaultRenderer = new ConsoleScreenRenderer();
-            _columns = columns;
-            _rows = rows;
-            UpdateSize();
+            _sizeCallback = sizeCallback;
+            ResizeScreenOnDemand();
         }
 
         public int Columns
@@ -58,6 +64,15 @@ namespace DotNetTools.AdvancedConsole
 
         public int CurrentRow { get; set; }
 
+        public void ResizeScreenOnDemand()
+        {
+            if (_sizeCallback == null)
+                return;
+            var (rows, columns) = _sizeCallback();
+            Columns = columns;
+            Rows = rows;
+        }
+
         public ConsoleScreenPixel GetPixel(int row, int col)
         {
             var rowPixel = _pixels[row];
@@ -68,28 +83,23 @@ namespace DotNetTools.AdvancedConsole
             return rowPixel[col];
         }
 
-        public void Render(ConsoleRenderOptions options)
-            => _defaultRenderer.Render(this, options);
-
         private void UpdateSize()
         {
             var oldPixels = _pixels;
             _pixels = new ConsoleScreenPixel[_rows][];
             for (var i = 0; i < _rows; i++)
             {
-                var oldRow = oldPixels?[i];
+                var oldRow = oldPixels != null && oldPixels.Length > i ? oldPixels[i] : null;
                 _pixels[i] = new ConsoleScreenPixel[_columns];
                 if (oldRow != null)
                     Array.Copy(oldRow, _pixels[i], Math.Clamp(_columns, 0, oldRow.Length));
             }
-
-            Render(new ConsoleRenderOptions { RenderingMode = ConsoleRenderingMode.Full });
         }
 
         /// <summary>
         /// Creates a new instance of <see cref="ConsoleScreen"/> with the size of the console window.
         /// </summary>
         public static ConsoleScreen CreateForWindow()
-            => new ConsoleScreen(Console.WindowWidth, Console.WindowHeight);
+            => new ConsoleScreen(() => (Console.WindowHeight, Console.WindowWidth));
     }
 }

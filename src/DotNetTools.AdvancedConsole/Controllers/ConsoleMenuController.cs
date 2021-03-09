@@ -10,6 +10,21 @@ namespace DotNetTools.AdvancedConsole.Controllers
     {
         private ConsoleSelectList _list;
 
+        public ConsoleMenuController(IConsoleScreen screen, ConsoleScreenRenderer renderer) : base(screen, renderer)
+        {
+        }
+
+        public ConsoleMenuController(IConsoleScreen screen) : base(screen)
+        {
+        }
+
+        public ConsoleMenuController(ConsoleScreenRenderer renderer) : base(renderer)
+        {
+        }
+        public ConsoleMenuController() : base()
+        {
+        }
+
         public string HeaderText { get; set; }
 
         public IList<ConsoleMenuItem> Items { get; set; }

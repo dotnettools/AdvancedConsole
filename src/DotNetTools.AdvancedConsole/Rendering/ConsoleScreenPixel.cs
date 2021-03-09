@@ -36,10 +36,27 @@ namespace DotNetTools.AdvancedConsole
 
         public ConsoleColor? BackgroundColor { get; set; }
 
+        public bool IsEmpty
+            => Char == '\0' && ForegroundColor == null && BackgroundColor == null;
+
         public void Clear()
         {
             Char = '\0';
             ForegroundColor = BackgroundColor = null;
+        }
+
+        /// <summary>
+        /// Converts <see cref="Char"/> of '\0' to space.
+        /// </summary>
+        public char GetConsoleChar()
+        {
+            switch (Char)
+            {
+                case '\0':
+                    return ' ';
+                default:
+                    return Char;
+            }
         }
 
         public override int GetHashCode()

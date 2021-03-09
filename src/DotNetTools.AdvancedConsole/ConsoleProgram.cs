@@ -44,7 +44,7 @@ namespace DotNetTools.AdvancedConsole
             while (true)
             {
                 if (Controller == null || Terminated)
-                    return;
+                    break;
 
                 var context = new ConsoleControllerContext(Render);
                 Controller.Run(context);

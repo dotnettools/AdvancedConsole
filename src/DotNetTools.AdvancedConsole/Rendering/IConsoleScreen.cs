@@ -39,5 +39,10 @@ namespace DotNetTools.AdvancedConsole
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown in case of invalid row or column.</exception>
         ConsoleScreenPixel GetPixel(int row, int col);
+
+        /// <summary>
+        /// Updates the size of the console screen if it's dynamic.
+        /// </summary>
+        void ResizeScreenOnDemand();
     }
 }
