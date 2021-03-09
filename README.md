@@ -1,5 +1,7 @@
 # AdvancedConsole
 ## Advanced console features for .NET
+<img src="https://raw.githubusercontent.com/dotnettools/AdvancedConsole/main/assets/icon.png" alt="AdvancedConsole" width="64"/>
+
 ### Features
 - Colorize the content
 - Use out-of-the-box widgets (including progress bar, select list etc.) and controllers or write your own
