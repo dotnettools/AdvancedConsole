@@ -61,14 +61,14 @@ namespace DotNetTools.AdvancedConsole.Controllers
             var row = PaddingTop;
             if (!string.IsNullOrEmpty(HeaderText))
             {
-                Widgets.Add<ConsoleText>(t =>
+                var text = Widgets.Add<ConsoleText>(t =>
                 {
                     t.Left = PaddingLeft;
                     t.Top = row;
                     t.Text = HeaderText;
                 });
 
-                row += 1 + HeaderSpace;
+                row += text.Height + HeaderSpace;
             }
 
             _list = Widgets.Add<ConsoleSelectList>(list =>

@@ -27,7 +27,7 @@ namespace DotNetTools.AdvancedConsole.Demo
             return new ConsoleMenuController(screen, renderer)
             {
                 FixedWidth = 50,
-                HeaderText = "AdvancedConsole - Please select an option.",
+                HeaderText = "[AdvancedConsole]\r\nDemo Application\nPlease select an option.",
                 Items = new List<ConsoleMenuItem>
                 {
                     new ConsoleMenuItem { Text = "Test the progressbar" }.Select(() => program.Controller = new TestController(renderer) ),

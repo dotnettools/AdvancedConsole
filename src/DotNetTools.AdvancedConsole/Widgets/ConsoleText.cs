@@ -7,6 +7,7 @@ namespace DotNetTools.AdvancedConsole.Widgets
     public class ConsoleText : ConsoleWidgetBase
     {
         private string _text;
+        private int _height = 1;
 
         public ConsoleText(ConsoleWidgetHost host) : base(host)
         {
@@ -38,7 +39,7 @@ namespace DotNetTools.AdvancedConsole.Widgets
         /// </summary>
         public bool WrapToInitialColumn { get; set; } = true;
 
-        public override int Height { get => base.Height; set => base.Height = 0; }
+        public override int Height { get => _height; set { } }
 
         protected override void InternalUpdate()
         {
@@ -55,26 +56,40 @@ namespace DotNetTools.AdvancedConsole.Widgets
         {
             var row = Top;
             var col = Left;
+            _height = 1;
 
-            for (var i = 0; i < Text.Length; i++)
-            {
-                if (col >= Screen.Columns)
+            if (Text != null)
+                for (var i = 0; i < Text.Length; i++)
                 {
-                    if (CharacterWrap)
+                    var ch = Text[i];
+                    switch (ch)
                     {
-                        col = WrapToInitialColumn ? Left : 0;
-                        row++;
+                        case '\r':
+                            continue;
+                        case '\n':
+                            col = Left;
+                            row++;
+                            _height++;
+                            continue;
                     }
-                    else
-                        break;
-                }
 
-                var pixel = Screen.GetPixel(row, col);
-                pixel.BackgroundColor = BackgroundColor;
-                pixel.ForegroundColor = ForegroundColor;
-                pixel.Char = Text[i];
-                col++;
-            }
+                    if (col >= Screen.Columns)
+                    {
+                        if (CharacterWrap)
+                        {
+                            col = WrapToInitialColumn ? Left : 0;
+                            row++;
+                        }
+                        else
+                            break;
+                    }
+
+                    var pixel = Screen.GetPixel(row, col);
+                    pixel.BackgroundColor = BackgroundColor;
+                    pixel.ForegroundColor = ForegroundColor;
+                    pixel.Char = ch;
+                    col++;
+                }
 
             return new ConsolePoint(row, col);
         }
