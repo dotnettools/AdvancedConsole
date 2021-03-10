@@ -11,7 +11,7 @@
 ### Installation
 Install the `DotNetTools.AdvancedConsole` .NET Standard NuGet package.
 
-    Install-Package DotNetTools.AdvancedConsole -Version 0.0.3
+    Install-Package DotNetTools.AdvancedConsole -Version 0.0.4
     
 ### Examples
 #### Displaying a menu

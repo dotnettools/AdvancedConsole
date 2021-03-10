@@ -11,7 +11,7 @@
         <PackageLicenseExpression></PackageLicenseExpression>
         <PackageIcon>icon.png</PackageIcon>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <Version>0.0.3</Version>
+        <Version>0.0.4</Version>
         <PackageTags>console,cmd,commandline,menu,.net.dotnet,dotnetcore</PackageTags>
         <Description>Advanced console features for .NET</Description>
         <Company>DotNetTools</Company>
@@ -20,6 +20,10 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <DocumentationFile></DocumentationFile>
         <NoWarn>1701;1702;1591</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <NoWarn>1701;1702;1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

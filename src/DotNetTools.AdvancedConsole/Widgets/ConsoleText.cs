@@ -6,7 +6,7 @@ namespace DotNetTools.AdvancedConsole.Widgets
 {
     public class ConsoleText : ConsoleWidgetBase
     {
-        private string _text;
+        private string _text, _previousText;
         private int _height = 1;
 
         public ConsoleText(ConsoleWidgetHost host) : base(host)
@@ -23,6 +23,7 @@ namespace DotNetTools.AdvancedConsole.Widgets
             {
                 if (_text == value)
                     return;
+                _previousText = _text;
                 _text = value;
                 Update();
             }
@@ -90,6 +91,35 @@ namespace DotNetTools.AdvancedConsole.Widgets
                     pixel.Char = ch;
                     col++;
                 }
+
+            // clear previous text
+            if (!string.IsNullOrEmpty(_previousText))
+            {
+                var prow = Top;
+                var pcol = Left;
+
+                for (var i = 0; i < _previousText.Length; i++)
+                {
+                    var ch = _previousText[i];
+                    var newCh = _text == null || i >= _text.Length ? (char?)null : _text[i];
+
+                    switch (ch)
+                    {
+                        case '\r':
+                            continue;
+                        case '\n':
+                            prow++;
+                            pcol = Left;
+                            continue;
+                    }
+
+                    var pixel = Screen.GetPixel(prow, pcol);
+                    if (newCh == null)
+                        pixel.Clear();
+                    pcol++;
+                }
+                _previousText = null;
+            }
 
             return new ConsolePoint(row, col);
         }
